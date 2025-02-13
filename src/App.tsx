@@ -4,6 +4,7 @@ import {
   ChevronRightIcon,
   DeleteIcon,
   EditIcon,
+  RepeatIcon,
 } from '@chakra-ui/icons';
 import {
   Alert,
@@ -200,6 +201,7 @@ function App() {
                           color={isNotified ? 'red.500' : 'inherit'}
                         >
                           <HStack spacing={1}>
+                            {event.repeat.type !== 'none' && <RepeatIcon aria-label="RepeatIcon" />}
                             {isNotified && <BellIcon />}
                             <Text fontSize="sm" noOfLines={1}>
                               {event.title}
@@ -257,8 +259,8 @@ function App() {
                             </Text>
                           )}
                           {getEventsForDay(filteredEvents, day).map((event) => {
-                            const isNotified = notifiedEvents.includes(event.id);
-                            return (
+                              const isNotified = notifiedEvents.includes(event.id);
+                              return (
                               <Box
                                 key={event.id}
                                 p={1}
@@ -269,6 +271,9 @@ function App() {
                                 color={isNotified ? 'red.500' : 'inherit'}
                               >
                                 <HStack spacing={1}>
+                                  {event.repeat.type !== 'none' && (
+                                    <RepeatIcon aria-label="RepeatIcon" />
+                                  )}
                                   {isNotified && <BellIcon />}
                                   <Text fontSize="sm" noOfLines={1}>
                                     {event.title}
@@ -479,7 +484,7 @@ function App() {
                     <Text>{event.location}</Text>
                     <Text>카테고리: {event.category}</Text>
                     {event.repeat.type !== 'none' && (
-                      <Text>
+                      <Text aria-label="반복 정보">
                         반복: {event.repeat.interval}
                         {event.repeat.type === 'daily' && '일'}
                         {event.repeat.type === 'weekly' && '주'}
